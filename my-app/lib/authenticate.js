@@ -1,0 +1,54 @@
+import { jwtDecode } from 'jwt-decode';
+
+export async function authenticateUser(user, password) {
+
+    const res = await fetch(`/api/server`, {
+        method: 'POST',
+        body: JSON.stringify({ userName: user, password: password }),
+        headers: {
+            'content-type': 'application/json',
+        },
+    });
+
+    const data = await res.json();
+
+    if (res.status === 200) {
+        setToken(data.token);
+        return true;
+    } else {
+        console.log("error")
+        console.log(data)
+        console.log(data.message)
+        throw new Error(data.message);
+    }
+}
+
+function setToken(token) {
+    localStorage.setItem('access_token', token);
+}
+
+export function getToken() {
+    try {
+        return localStorage.getItem('access_token');
+    } catch (err) {
+        return null;
+    }
+}
+
+export function removeToken() {
+    localStorage.removeItem('access_token');
+}
+
+export function readToken() {
+    try {
+        const token = getToken();
+        return token ? jwtDecode(token) : null;
+    } catch (err) {
+        return null;
+    }
+}
+
+export function isAuthenticated() {
+    const token = readToken();
+    return token ? true : false;
+}

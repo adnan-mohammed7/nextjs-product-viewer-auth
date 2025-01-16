@@ -1,0 +1,21 @@
+.image{
+    width: 100px;
+    height: 100px;
+    margin: 5px;
+}
+
+.organization{
+    background-color: aliceblue;
+}
+
+.organization h1{
+    color: black;
+}
+
+.organization p{
+    color: black;
+}
+
+.products{
+    background-color: gray;
+}
